@@ -1,5 +1,7 @@
 from tkinter import *
 from functions import video_download
+
+
 janela = Tk()
 
 default_color = '#93A8AC'
@@ -24,12 +26,17 @@ def view_baixar_video():
     janela = Tk()
     config_default(janela, "Tela Inicial | Baixar Video", "Baixar Video")
     janela.geometry('500x600')
-    texto = Label(janela, text="Digite a url do video que deseja baixar", background=default_color, font=(font_default, 12))
-    texto.pack(pady=4)
+    texto_url = Label(janela, text="Digite a url do video que deseja baixar*", background=default_color, font=(font_default, 12))
+    texto_url.pack(pady=4)
     url = Entry(width=40,border=0)
     url.pack(pady=10, ipady=4, ipadx=4)
+
+    texto_caminho = Label(janela, text="Digite onde deseja salvar(Opcional)", background=default_color, font=(font_default, 12))
+    texto_caminho.pack(pady=4)
+    caminho = Entry(width=40,border=0)
+    caminho.pack(pady=10, ipady=4, ipadx=4)
     
-    button = Button(text='Baixar video',width=30,font=(font_default,10), command=lambda: video_download(url.get(),janela))
+    button = Button(text='Baixar video',width=30,font=(font_default,10), command=lambda: video_download(url.get(),janela,caminho.get()))
     button.pack()
 
 
