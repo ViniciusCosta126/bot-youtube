@@ -16,42 +16,41 @@ A função de download de playlists é similiar a de video, porem neste caso ser
 
 Para rodar localmente siga os passos a seguir
 
-- Primero clone o repositorio
+### Primero clone o repositorio
 
 ```bash
     git clone https://github.com/ViniciusCosta126/bot-youtube.git
 ```
 
-- Entre na pasta
+### Entre na pasta
 
 ```bash
     cd bot-youtube
 ```
 
-- Crie o ambiente virtual
+### Crie o ambiente virtual
 
 ```bash
     python -m venv env
 ```
 
-- Ative o ambiente virtual
+### Ative o ambiente virtual
 
-Windows
+- Windows
 ```bash
     .\env\Scripts\activate
 ```
-
-Linux ou macos
+- Linux ou macos
 ```bash
     source env/bin/activate
 ```
 
-- Instale os requisitos
+### Instale os requisitos
 ```bash
     pip install -r requirements.txt
 ```
 
-- Para rodar o projeto 
+### Para rodar o projeto 
 
 ```bash
     python app.py
