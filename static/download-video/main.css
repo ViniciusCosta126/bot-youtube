@@ -1,0 +1,8 @@
+.signal-download,
+.signal-success {
+  display: none;
+}
+.signal-download.block,
+.signal-success.block {
+  display: flex;
+}

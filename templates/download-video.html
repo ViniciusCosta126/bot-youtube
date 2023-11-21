@@ -4,17 +4,34 @@
 
 
 {% block conteudo %}
+<link rel="stylesheet" href="{{url_for('static', filename='download-video/main.css')}}">
+<div class='container'>
+  <form id ='form-video' class='container p-4' action='{{action_url}}'>
 
-<form class='container' method='POST' action='{{ url_for('download_video_corte') }}'>
     <div class="mb-3">
-      <label for="url" class="form-label">Url do video</label>
-      <input type="text" class="form-control" id="url" name='url' aria-describedby="url do video" placeholder='Digite aqui a url do video'>
-    </div>
-    <div class="mb-3">
-      <label for="caminho_salvar" class="form-label">Digite onde deseja salvar no seu computador</label>
-      <input type="text" class="form-control" id="caminho_salvar" name='caminho' placeholder='Digite o caminho de onde deseja salvar'>
+      <label for="url" class="form-label fw-bold">Url do video*</label>
+      <input required type="text" class="form-control" id="url" name='url' aria-describedby="url do video" placeholder='Digite aqui a url do video'>
     </div>
 
-    <button type="submit" class="btn btn-primary">Baixar</button>
+    <div class="mb-3">
+      <label for="caminho_salvar" class="form-label fw-bold">Digite onde deseja salvar no seu computador*</label>
+      <input required type="text" class="form-control" id="caminho_salvar" name='caminho' placeholder='Digite o caminho de onde deseja salvar'>
+    </div>
+
+    <button id='submit-btn' type="submit" class="btn btn-primary">Baixar</button>
   </form>
+
+  <div class='alert signal-download alert-success container row justify-content-center'>
+    <div class="spinner-border text-success col-1" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class='col-5 align-self-center'>Fazendo download e corte do video, isso pode levar alguns minutos...</p>
+  </div>
+  <div class='alert signal-success alert-success container row justify-content-center'>
+    <p class='col-5 align-self-center'>Download e corte concluidos com sucesso</p>
+  </div>
+</div>
+
+
+  <script src="{{url_for('static', filename='download-video/index.js')}}"></script>
 {% endblock %}

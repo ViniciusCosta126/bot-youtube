@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,redirect,url_for
+from flask import Flask, render_template, request, redirect, url_for
 from functions.video_download import video_download
 app = Flask(__name__)
 
@@ -13,19 +13,24 @@ def home():
 
 @app.route('/download-video')
 def download_video():
-    return render_template('download-video.html', titulo='Donwload Video | Video')
+    action_url = url_for('home',_external=True)
+    action_url+= 'download-video-corte'
+    return render_template('download-video.html', titulo='Download Video | Video',action_url=action_url)
 
 
 @app.route('/download-playlist')
 def download_playlist():
-    return render_template('download-playlist.html', titulo='Donwload Video | Playlist')
+    return render_template('download-playlist.html', titulo='Download Video | Playlist')
 
-@app.route('/download-video-corte',methods=['POST'])
+
+@app.route('/download-video-corte', methods=['POST'])
 def download_video_corte():
     if request.method == 'POST':
-        video_url = request.form['url']
-        caminho = request.form['caminho']
-        video_download(video_url,caminho)
+        data = request.json
+        video_url = data['url']
+        caminho = data['caminho']
+        video_download(video_url, caminho)
         return redirect(url_for('download_video'))
+
 
 app.run()
