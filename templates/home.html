@@ -7,23 +7,23 @@
             <h1 class='text-center mt-2 '>Trazendo a simplicidade para fazer cortes para o tiktok</h1>
             <h3 class='text-center mt-3'>Voce pode escolher entre baixar um video ou uma playlist completa</h3>
             <div class='mt-4 container '>
-                <div class='row justify-content-center gx-1'>
+                <div class='row justify-content-center align-items-center gx-1'>
                     <div class='col-5'>
                         <div class="card p-3">
-                            <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                            <img style="height: 325px;" src="{{url_for('static', filename='images/video.webp')}}" class="card-img-top rounded" alt="...">
                             <div class="card-body">
                             <h5 class="card-title">Baixar somente um video</h5>
-                            <p class="card-text">Aqui você podera baixar video por video e ja fazer os cortes</p>
+                            <p class="card-text">Aqui você podera baixar video por video, eles serão cortados automaticamente com 1:30</p>
                             <a href="download-video" class="btn btn-primary">Começar!!</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-5">
                         <div class="card p-3">
-                            <img src="https://placehold.co/600x400" class="card-img-top" alt="...">
+                            <img style="height: 325px;" src="{{url_for('static', filename='images/playlist.jpg')}}" class="card-img-top rounded" alt="...">
                             <div class="card-body">
                             <h5 class="card-title">Baixar playlist completa</h5>
-                            <p class="card-text">Aqui você podera baixar uma playlist completa de videos</p>
+                            <p class="card-text">Aqui você podera baixar uma playlist completa de videos, eles não serão cortados</p>
                             <a href="download-playlist" class="btn btn-primary">Começar!!</a>
                             </div>
                         </div>

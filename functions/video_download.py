@@ -1,4 +1,4 @@
-from functions import YouTube, on_complete, on_progress
+from functions import YouTube, on_complete, on_progress, Playlist
 
 
 def video_download(url, caminho):
@@ -10,3 +10,11 @@ def video_download(url, caminho):
                      on_complete_callback=lambda stream, file_path: on_complete(stream, file_path, path))
         yt.streams.filter(progressive=True, file_extension='mp4').order_by(
             'resolution')[-1].download(path)
+
+
+def playlist_download(url, caminho):
+    if url != '':
+        playlist = Playlist(url)
+        for video in playlist.videos:
+            video.streams.filter(progressive=True, file_extension='mp4').order_by(
+                'resolution')[-1].download(caminho)

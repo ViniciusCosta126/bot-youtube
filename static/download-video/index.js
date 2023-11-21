@@ -1,8 +1,6 @@
 window.addEventListener("load", () => {
-  const form = document.querySelector("#form-video");
-  const btn = document.querySelector("#submit-btn");
-
-  if (btn) {
+  
+  const downloadVideo = (btn, form) => {
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
       var formData = new FormData(form);
@@ -12,6 +10,7 @@ window.addEventListener("load", () => {
       });
       var json = JSON.stringify(obj);
       document.querySelector(".signal-download").classList.add("block");
+      btn.disabled = true;
       await fetch(form.getAttribute("action"), {
         method: "POST",
         headers: {
@@ -22,7 +21,23 @@ window.addEventListener("load", () => {
       }).then(() => {
         document.querySelector(".signal-download").classList.remove("block");
         document.querySelector(".signal-success").classList.add("block");
+
+        setTimeout(() => {
+          document.querySelector(".signal-success").classList.remove("block");
+          form.querySelectorAll(".form-control").forEach((input) => {
+            input.value = "";
+          });
+          btn.disabled = false;
+        }, 3500);
       });
     });
+  };
+
+  const form = document.querySelector("#form-video");
+  const btn = document.querySelector("#submit-btn");
+
+  if (btn && form) {
+    downloadVideo(btn, form);
   }
+
 });
