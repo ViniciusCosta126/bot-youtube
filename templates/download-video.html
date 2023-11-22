@@ -10,12 +10,17 @@
     <div class="mb-3">
       <label for="url" class="form-label fw-bold">Url do video*</label>
       <input required type="text" class="form-control" id="url" name='url' aria-describedby="url do video" placeholder='Digite aqui a url do video'>
-
+      <div class='msg-erro'>
+        <p>Url invalida ou vazia</p>
+      </div>
     </div>
 
     <div class="mb-3">
       <label for="caminho_salvar" class="form-label fw-bold">Digite onde deseja salvar no seu computador*</label>
       <input required type="text" class="form-control" id="caminho_salvar" name='caminho' placeholder='Digite o caminho de onde deseja salvar'>
+      <div class='msg-erro'>
+        <p>O Caminho precisa ser preenchido</p>
+      </div>
     </div>
 
     <button id='submit-btn' type="submit" class="btn btn-primary">Baixar</button>

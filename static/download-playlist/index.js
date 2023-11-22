@@ -1,34 +1,32 @@
 window.addEventListener("load", () => {
-  const downloadVideo = (btn, form) => {
-    btn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      var formData = new FormData(form);
-      var obj = {};
-      formData.forEach((value, key) => {
-        obj[key] = value;
-      });
-      var json = JSON.stringify(obj);
-      document.querySelector(".signal-download").classList.add("block");
-      btn.disabled = true;
-      await fetch(form.getAttribute("action"), {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: json,
-      }).then(() => {
-        document.querySelector(".signal-download").classList.remove("block");
-        document.querySelector(".signal-success").classList.add("block");
+  const downloadVideo = async (form) => {
+    var formData = new FormData(form);
+    var obj = {};
+    formData.forEach((value, key) => {
+      obj[key] = value;
+    });
+    console.log(obj);
+    var json = JSON.stringify(obj);
+    document.querySelector(".signal-download").classList.add("block");
+    btn.disabled = true;
+    await fetch(form.getAttribute("action"), {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: json,
+    }).then(() => {
+      document.querySelector(".signal-download").classList.remove("block");
+      document.querySelector(".signal-success").classList.add("block");
 
-        setTimeout(() => {
-          document.querySelector(".signal-success").classList.remove("block");
-          form.querySelectorAll(".form-control").forEach((input) => {
-            input.value = "";
-          });
-          btn.disabled = false;
-        }, 3500);
-      });
+      setTimeout(() => {
+        document.querySelector(".signal-success").classList.remove("block");
+        form.querySelectorAll(".form-control").forEach((input) => {
+          input.value = "";
+        });
+        btn.disabled = false;
+      }, 3500);
     });
   };
 
@@ -36,9 +34,34 @@ window.addEventListener("load", () => {
   const btn = document.querySelector("#submit-btn");
 
   if (btn && form) {
+    const msgsErros = form.querySelectorAll(".msg-erro");
 
-    
-    downloadVideo(btn, form);
+    var inputs = form.querySelectorAll(".form-control");
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      var inputsValidos = validaForms(inputs, msgsErros);
+      console.log(inputsValidos);
+      if (inputsValidos) {
+        downloadVideo(form);
+      }
+    });
+  }
+});
+
+const validaForms = (inputs, msgsErros) => {
+  let inputsValidos = true;
+
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].value.trim() === "") {
+      inputs[i].classList.add("input-error");
+      msgsErros[i].style.display = "block";
+      inputsValidos = false;
+    } else {
+      inputs[i].classList.remove("input-error");
+      msgsErros[i].style.display = "none";
+    }
   }
 
-});
+  return inputsValidos;
+};
