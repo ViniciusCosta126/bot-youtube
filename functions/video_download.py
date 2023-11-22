@@ -1,4 +1,5 @@
 from functions import YouTube, on_complete, on_progress, Playlist
+import re
 
 
 def video_download(url, caminho):
@@ -12,9 +13,18 @@ def video_download(url, caminho):
             'resolution')[-1].download(path)
 
 
-def playlist_download(url, caminho):
+def playlist_download(url, caminho, audio_only):
     if url != '':
         playlist = Playlist(url)
         for video in playlist.videos:
-            video.streams.filter(progressive=True, file_extension='mp4').order_by(
-                'resolution')[-1].download(caminho)
+            titulo = str(video.title).strip()
+            titulo = re.sub(r'[^a-zA-Z0-9\s]', '', titulo)
+            titulo +='.mp3'
+            if audio_only:
+                audio_streams = video.streams.filter(only_audio=True)
+                if audio_streams:
+                    audio_streams[0].download(
+                        output_path=caminho, filename=titulo)
+            else:
+                video.streams.filter(progressive=True, file_extension='mp4').order_by(
+                    'resolution')[-1].download(caminho)

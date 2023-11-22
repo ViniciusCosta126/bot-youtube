@@ -21,6 +21,9 @@ conteudo %}
         aria-describedby="url do video"
         placeholder="Digite aqui a url da playlist"
       />
+      <div class='msg-erro'>
+        <p>Url invalida ou vazia</p>
+      </div>
     </div>
 
     <div class="mb-3">
@@ -35,6 +38,15 @@ conteudo %}
         name="caminho"
         placeholder="Digite o caminho de onde deseja salvar"
       />
+      <div class='msg-erro'>
+        <p>O Caminho precisa ser preenchido</p>
+      </div>
+    </div>
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" id="audio-check" name='audio_check'>
+      <label class="form-check-label" for="audio-check">
+        Deseja baixar apenas o audio das musicas?
+      </label>
     </div>
 
     <button id="submit-btn" type="submit" class="btn btn-primary">

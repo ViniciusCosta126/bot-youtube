@@ -41,7 +41,10 @@ def download_videos_playlist():
         data = request.json
         playlist_url = data['url']
         caminho = data['caminho']
-        playlist_download(playlist_url, caminho)
+        audio_only = False
+        if 'audio_check' in data:
+            audio_only = True
+        playlist_download(playlist_url, caminho, audio_only)
         return redirect(url_for('download_playlist'))
 
 
