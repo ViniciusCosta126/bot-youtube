@@ -5,18 +5,25 @@ window.addEventListener("load", () => {
     formData.forEach((value, key) => {
       obj[key] = value;
     });
-    console.log(obj);
     var json = JSON.stringify(obj);
     document.querySelector(".signal-download").classList.add("block");
     btn.disabled = true;
-    await fetch(form.getAttribute("action"), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: json,
-    }).then(() => {
+
+    try {
+      const response = await fetch(form.getAttribute("action"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: json,
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage.error);
+      }
+
       document.querySelector(".signal-download").classList.remove("block");
       document.querySelector(".signal-success").classList.add("block");
 
@@ -27,7 +34,16 @@ window.addEventListener("load", () => {
         });
         btn.disabled = false;
       }, 3500);
-    });
+    } catch (error) {
+      document.querySelector(".signal-download").classList.remove("block");
+      var errorMsg = document.querySelector(".signal-error");
+      errorMsg.querySelector("p").innerHTML = error;
+      errorMsg.classList.add("block");
+      setTimeout(() => {
+        btn.disabled = false;
+        errorMsg.classList.remove("block");
+      }, 3000);
+    }
   };
 
   const form = document.querySelector("#form-video");
@@ -35,13 +51,11 @@ window.addEventListener("load", () => {
 
   if (btn && form) {
     const msgsErros = form.querySelectorAll(".msg-erro");
-
-    var inputs = form.querySelectorAll(".form-control");
+    const inputs = form.querySelectorAll(".form-control");
 
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       var inputsValidos = validaForms(inputs, msgsErros);
-      console.log(inputsValidos);
       if (inputsValidos) {
         downloadVideo(form);
       }
@@ -62,6 +76,5 @@ const validaForms = (inputs, msgsErros) => {
       msgsErros[i].style.display = "none";
     }
   }
-
   return inputsValidos;
 };

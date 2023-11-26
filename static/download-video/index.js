@@ -8,14 +8,22 @@ window.addEventListener("load", () => {
     var json = JSON.stringify(obj);
     document.querySelector(".signal-download").classList.add("block");
     btn.disabled = true;
-    await fetch(form.getAttribute("action"), {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: json,
-    }).then(() => {
+
+    try {
+      const response = await fetch(form.getAttribute("action"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: json,
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.json();
+        throw new Error(errorMessage.error);
+      }
+
       document.querySelector(".signal-download").classList.remove("block");
       document.querySelector(".signal-success").classList.add("block");
 
@@ -26,7 +34,16 @@ window.addEventListener("load", () => {
         });
         btn.disabled = false;
       }, 3500);
-    });
+    } catch (error) {
+      document.querySelector(".signal-download").classList.remove("block");
+      var errorMsg = document.querySelector(".signal-error");
+      errorMsg.querySelector("p").innerHTML = error;
+      errorMsg.classList.add("block");
+      setTimeout(() => {
+        btn.disabled = false;
+        errorMsg.classList.remove("block");
+      }, 3000);
+    }
   };
 
   const form = document.querySelector("#form-video");
@@ -55,6 +72,6 @@ const validaForms = (inputs, msgsErros) => {
       msgsErros[index].style.display = "block";
       return false;
     }
-    return true;
   });
+  return true;
 };

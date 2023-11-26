@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,jsonify
 from functions.video_download import video_download, playlist_download
 app = Flask(__name__)
 
@@ -28,24 +28,34 @@ def download_playlist():
 @app.route('/download-video-corte', methods=['POST'])
 def download_video_corte():
     if request.method == 'POST':
-        data = request.json
-        video_url = data['url']
-        caminho = data['caminho']
-        video_download(video_url, caminho)
-        return redirect(url_for('download_video'))
+        try:
+            data = request.json
+            video_url = data['url']
+            caminho = data['caminho']
+            corte = data['corte']
+            corte = int(corte)
+            video_download(video_url, caminho,corte)
+            return redirect(url_for('download_video'))
+        except ValueError as e:
+            error_message = str(e)
+            return jsonify({'error':error_message}),400
 
 
 @app.route('/download-videos-playlist', methods=['POST'])
 def download_videos_playlist():
     if request.method == 'POST':
-        data = request.json
-        playlist_url = data['url']
-        caminho = data['caminho']
-        audio_only = False
-        if 'audio_check' in data:
-            audio_only = True
-        playlist_download(playlist_url, caminho, audio_only)
-        return redirect(url_for('download_playlist'))
+        try:
+            data = request.json
+            playlist_url = data['url']
+            caminho = data['caminho']
+            audio_only = False
+            if 'audio_check' in data:
+                audio_only = True
+            playlist_download(playlist_url, caminho, audio_only)
+            return redirect(url_for('download_playlist'))
+        except ValueError as e:
+            error_message = str(e)
+            return jsonify({'error':error_message}), 400
 
 
 app.run()
