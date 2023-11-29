@@ -1,7 +1,7 @@
 from flask import Blueprint, request, redirect, url_for, jsonify, render_template
 from functions.video_download import video_download
 from functions.playlist_download import playlist_download
-
+from functions.remover_bg import remover_bg
 
 rotas = Blueprint('rotas', __name__)
 
@@ -10,14 +10,14 @@ rotas = Blueprint('rotas', __name__)
 def download_video():
     action_url = url_for('home', _external=True)
     action_url += 'download-video-corte'
-    return render_template('download-video.html', titulo='Download Video | Video', action_url=action_url)
+    return render_template('download-video.html', titulo='Cortador de Mídia Online | Video', action_url=action_url)
 
 
 @rotas.route('/download-playlist')
 def download_playlist():
     action_url = url_for('home', _external=True)
     action_url += 'download-videos-playlist'
-    return render_template('download-playlist.html', titulo='Download Video | Playlist', action_url=action_url)
+    return render_template('download-playlist.html', titulo='Cortador de Mídia Online | Playlist', action_url=action_url)
 
 
 @rotas.route('/download-video-corte', methods=['POST'])
@@ -50,4 +50,25 @@ def download_videos_playlist():
             return redirect(url_for('download_playlist'))
         except ValueError as e:
             error_message = str(e)
-            return jsonify({'error': error_message}), 400
+            return jsonify({'erro': error_message}), 400
+
+
+@rotas.route('/remover-fundo-img')
+def remover_fundo_img():
+    action_url = url_for('home', _external=True)
+    action_url += 'remover-fundo-bg'
+    return render_template('remover-fundo-img.html', titulo='Cortador de Mídia Online | Remover fundo', action_url=action_url)
+
+
+@rotas.route('/remover-fundo-bg', methods=['POST'])
+def remover_fundo_bg():
+    if request.method == "POST":
+        try:
+            imagem = request.files['image']
+            caminho = request.form['caminho']
+            remover_bg(caminho, imagem)
+            return jsonify({'message':f'Fundo removido com sucesso!! Salvo no caminho {caminho}'}),200
+        except ValueError as e:
+            error_message = str(e)
+            print(error_message)
+            return jsonify({'erro': error_message}), 400

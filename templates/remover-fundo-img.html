@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block titulo %} {{titulo}} {% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="{{url_for('static', filename='remover-fundo-img/main.css')}}">
+<div class='container pt-4'>
+    <h1 class='text-center'>Remover fundo de imagens</h1>
+    <form  action='{{action_url}}' class='w-50 m-auto mt-4 border border-2 border-primary p-3 rounded' id='form-video' enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="caminho_salvar" class="form-label fw-bold">Digite onde deseja salvar no seu computador*</label>
+            <input required type="text" class="form-control" id="caminho_salvar" name='caminho' placeholder='Digite o caminho de onde deseja salvar'>
+            <div class='msg-erro'>
+              <p>O Caminho precisa ser preenchido*</p>
+            </div>
+          </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label fw-bold">Insira uma imagem*</label>
+            <input class="form-control" type="file" id="formFile" name='image'>
+            <div class='msg-erro'>
+                <p>A imagem precisa ser selecionada*</p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id='submit-btn'>Remover fundo</button>
+      </form>
+
+      <div class='alert signal-download alert-warning row justify-content-center'>
+        <div class="spinner-border text-warning col-1" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class='col-5 align-self-center'>Removendo fundo da imagem,isso pode demorar um pouco!</p>
+      </div>
+      <div class='alert signal-success alert-success row justify-content-center'>
+        <p class='col-5 align-self-center'></p>
+      </div>
+    
+      <div class='alert signal-error alert-danger row justify-content-center'>
+        <p class='col-5 align-self-center'></p>
+      </div>
+</div>
+<script src="{{url_for('static', filename='remover-fundo-img/index.js')}}"></script>
+{% endblock %}
+    
