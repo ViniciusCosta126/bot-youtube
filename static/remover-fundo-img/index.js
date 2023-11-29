@@ -1,37 +1,33 @@
 window.addEventListener("load", () => {
   const downloadVideo = async (form) => {
     var formData = new FormData(form);
-    var obj = {};
-    formData.forEach((value, key) => {
-      obj[key] = value;
-    });
-    var json = JSON.stringify(obj);
+
     document.querySelector(".signal-download").classList.add("block");
     btn.disabled = true;
 
     try {
       const response = await fetch(form.getAttribute("action"), {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-type": "application/json",
-        },
-        body: json,
+        body: formData,
       });
 
       if (!response.ok) {
         const errorMessage = await response.json();
-        throw new Error(errorMessage.erro);    
+        throw new Error(errorMessage.erro);
       }
 
       document.querySelector(".signal-download").classList.remove("block");
-      document.querySelector(".signal-success").classList.add("block");
-
+      const success = document.querySelector(".signal-success");
+      const resposta = await response.json();
+      success.querySelector("p").innerHTML = resposta.message;
+      success.classList.add("block");
       setTimeout(() => {
         document.querySelector(".signal-success").classList.remove("block");
+
         form.querySelectorAll(".form-control").forEach((input) => {
           input.value = "";
         });
+
         btn.disabled = false;
       }, 3500);
     } catch (error) {
@@ -52,7 +48,6 @@ window.addEventListener("load", () => {
   if (btn && form) {
     const msgsErros = form.querySelectorAll(".msg-erro");
     const inputs = form.querySelectorAll(".form-control");
-
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       var inputsValidos = validaForms(inputs, msgsErros);

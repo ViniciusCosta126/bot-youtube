@@ -1,0 +1,19 @@
+.card-container{
+    margin-right: 10px;
+}
+.card-container:last-child{
+    margin-right: 0;
+}
+
+.card-item {
+  height: 350px;
+}
+.card-item > .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-item > img {
+  height: 150px;
+}
