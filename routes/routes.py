@@ -1,5 +1,6 @@
 from flask import Blueprint, request, redirect, url_for, jsonify, render_template
-from functions.video_download import video_download, playlist_download
+from functions.video_download import video_download
+from functions.playlist_download import playlist_download
 
 
 rotas = Blueprint('rotas', __name__)
@@ -32,7 +33,7 @@ def download_video_corte():
             return redirect(url_for('download_video'))
         except ValueError as e:
             error_message = str(e)
-            return jsonify({'error': error_message}), 400
+            return jsonify({'erro': error_message}), 400
 
 
 @rotas.route('/download-videos-playlist', methods=['POST'])

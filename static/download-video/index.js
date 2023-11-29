@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
 
       if (!response.ok) {
         const errorMessage = await response.json();
-        throw new Error(errorMessage.error);
+        throw new Error(errorMessage.erro);
       }
 
       document.querySelector(".signal-download").classList.remove("block");
@@ -37,12 +37,13 @@ window.addEventListener("load", () => {
     } catch (error) {
       document.querySelector(".signal-download").classList.remove("block");
       var errorMsg = document.querySelector(".signal-error");
-      errorMsg.querySelector("p").innerHTML = error;
+      console.log('meu',error)
+      errorMsg.querySelector("p").innerHTML = error.message;
       errorMsg.classList.add("block");
       setTimeout(() => {
         btn.disabled = false;
         errorMsg.classList.remove("block");
-      }, 3000);
+      }, 4000);
     }
   };
 

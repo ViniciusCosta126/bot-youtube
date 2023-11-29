@@ -13,7 +13,7 @@ app.secret_key = os.getenv('SECRET_KEY')
 
 @app.route('/')
 def home():
-    return render_template('home.html', titulo='Donwload Video | Home')
+    return render_template('home.html', titulo='Download Video | Home')
 
 
 app.run()
